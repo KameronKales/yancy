@@ -2,4 +2,4 @@ FROM python:2.7
 COPY . /app
 WORKDIR /app
 RUN pip install -r requirements.txt
-CMD python spam.py
+CMD python server.py
