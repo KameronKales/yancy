@@ -4,14 +4,15 @@ import json
 
 app = Flask(__name__)
 
-@app.route('/', methods=['POST'])
+@app.route('/', methods=['POST', 'GET'])
 def example():
-    return "api call complete"
+    return "The API Call Was Completed", 200
+
 
 @app.route('/api', methods=['POST'])
 def spam_detection():
     data = request.json
-    return jsonify(data)
+    return jsonify({'response': 200, 'results': data})
 
 if __name__ == "__main__":
     app.run(debug=True, port=5000)
