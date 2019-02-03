@@ -1,0 +1,11 @@
+Python2.7
+Scikit-learn w/ SVM
+PostgreSQL
+Docker
+AWS => ELB distributing traffic to an ECS.
+
+Route53 =>
+
+https://api.yancy.app/auth
+https://api.yancy.app/usage
+https://api.yancy.app/spam
