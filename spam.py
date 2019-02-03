@@ -6,7 +6,7 @@ app = Flask(__name__)
 
 @app.route('/', methods=['POST', 'GET'])
 def example():
-    return "The API Call Was Completed", 200
+    return "The API Call Was Completed, Thank You For Using Yancy", 200
 
 
 @app.route('/api', methods=['POST'])
