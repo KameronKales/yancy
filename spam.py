@@ -1,12 +1,9 @@
 
 from flask import Flask, request, jsonify, Response
 import json
+from routes import *
 
 app = Flask(__name__)
-
-@app.route('/', methods=['POST', 'GET'])
-def example():
-    return "The API Call Was Completed, Thank You For Using Yancy", 200
 
 @app.route('/auth', methods=['POST'])
 def auth_user():
@@ -16,9 +13,6 @@ def auth_user():
 
 @app.route('/usage', methods=['GET'])
 def usage():
-    ## we need this to log how many requests someone has made <= 30 days
-    ## there probably is a library to do this 30 day calculation
-    ## 30 days X 24 hours x 60 minutes x 60 seconds = total seconds
     user = request.args.get('user')
     ## Go to db and figure out how many requests user has made
     ## in last 30 days. If over plan limit, return 401.
