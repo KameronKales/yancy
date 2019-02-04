@@ -20,6 +20,7 @@ def usage():
         return jsonify({'response': 401, 'results': 'Unauthorized'})
     else:
         user_info = cursor.fetchall()
+        print user_info
         conn.commit()
         cursor.close()
         conn.close()
