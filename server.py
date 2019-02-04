@@ -1,8 +1,6 @@
-
 from flask import Flask, request, jsonify, Response
 import json
 from routes import *
-from db import *
 
 app = Flask(__name__)
 app.register_blueprint(routes)
