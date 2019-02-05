@@ -13,6 +13,7 @@ from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.feature_extraction.text import TfidfTransformer
 from sklearn.feature_extraction.text import TfidfVectorizer
 import pickle
+from sklearn.metrics import classification_report, confusion_matrix, accuracy_score
 from sklearn.metrics import average_precision_score
 spamdata = pd.read_csv("spam.csv")
 
@@ -30,6 +31,8 @@ s = pickle.dumps(clf)
 brain = pickle.loads(s)
 predictions=brain.predict(x_testcv)
 print(average_precision_score(y_test, predictions))
+print(confusion_matrix(y_test, predictions))
+print(classification_report(y_test, predictions))
 
 
 def classifier(spam):
