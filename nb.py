@@ -22,7 +22,6 @@ X = spamdata['v2']
 cv = TfidfVectorizer(min_df=1,stop_words='english')
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size= .20, random_state = 4)
 x_traincv=cv.fit_transform(X_train)
-a=x_traincv.toarray()
 x_testcv=cv.transform(X_test)
 mnb = MultinomialNB()
 y_train=y_train.astype('int')
@@ -30,8 +29,6 @@ clf = mnb.fit(x_traincv,y_train)
 s = pickle.dumps(clf)
 brain = pickle.loads(s)
 predictions=brain.predict(x_testcv)
-print "Here are my predictions", predictions
-a=np.array(y_test)
 print(average_precision_score(y_test, predictions))
 
 
