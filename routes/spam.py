@@ -19,15 +19,12 @@ def spam():
         else:
             api_key = request.json['api_key']
             spam = request.json['spam']
-            classification = True
-            print spam
-            classifier(spam)
-            ## insert spam into spam table with uuid = api_key
-            ## spam table has 3 columns. uuid, content, classification
-            ## uuid = api_key (varchar 12 character limit)
-            ## content = the actual spam we want to classify (varchar 500,000 character limit)
-            ## classification = the classifier we ran (boolean)
-            sql = "INSERT INTO spam(uuid, content, classification) VALUES('{0}', '{1}', '{2}')".format(api_key, spam, classification)
+            spam_classification = classifier(spam)
+            if spam_classification == 0:
+                spam_classification = 'False'
+            else:
+                spam_classification = 'True'
+            sql = "INSERT INTO spam(uuid, content, classification) VALUES('{0}', '{1}', '{2}')".format(api_key, spam, spam_classification)
             ##cursor.execute(sql)
             if not cursor.rowcount:
                 conn.commit()
@@ -38,4 +35,4 @@ def spam():
                 conn.commit()
                 cursor.close()
                 conn.close()
-                return jsonify({'response': 200})
+                return jsonify({'response': 200, 'results': spam_classification})

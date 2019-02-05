@@ -3,16 +3,11 @@ import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 from sklearn.model_selection import train_test_split
-from sklearn.linear_model import SGDClassifier
-from sklearn.svm import SVC
 from sklearn import preprocessing
 from sklearn.naive_bayes import MultinomialNB
 from sklearn import metrics
-from sklearn.cluster import KMeans
-from sklearn.metrics import classification_report, confusion_matrix, accuracy_score, make_scorer
 import string
 import nltk
-from sklearn import svm
 from nltk.corpus import stopwords
 from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.feature_extraction.text import TfidfTransformer
@@ -31,10 +26,15 @@ a=x_traincv.toarray()
 x_testcv=cv.transform(X_test)
 mnb = MultinomialNB()
 y_train=y_train.astype('int')
-mnb.fit(x_traincv,y_train)
-testmessage=X_test.iloc[0]
-predictions=mnb.predict(x_testcv)
+clf = mnb.fit(x_traincv,y_train)
+s = pickle.dumps(clf)
+brain = pickle.loads(s)
+predictions=brain.predict(x_testcv)
 print "Here are my predictions", predictions
 a=np.array(y_test)
-print a
 print(average_precision_score(y_test, predictions))
+
+
+def classifier(spam):
+    formatted = cv.transform([spam])
+    return brain.predict(formatted)
