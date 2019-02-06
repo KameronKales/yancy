@@ -13,7 +13,6 @@ from sklearn.metrics import average_precision_score
 import pickle
 
 
-
 spamdata = pd.read_csv("spam.csv")
 
 X = spamdata['v2']
@@ -37,5 +36,9 @@ s = pickle.dumps(clf)
 brain = pickle.loads(s)
 
 def spam_svc_classifier(spam):
-    formatted = cv.transform([spam])
-    return brain.predict(formatted)
+    ## Need to add regex of fuzzing matching for sexual terms we know are bad
+    if spam == 'sex' or 'penis':
+        return 'True'
+    else:
+        formatted = cv.transform([spam])
+        return brain.predict(formatted)
