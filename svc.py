@@ -37,8 +37,5 @@ brain = pickle.loads(s)
 
 def spam_svc_classifier(spam):
     ## Need to add regex of fuzzing matching for sexual terms we know are bad
-    if spam == 'sex' or 'penis':
-        return 'True'
-    else:
-        formatted = cv.transform([spam])
-        return brain.predict(formatted)
+    formatted = cv.transform([spam])
+    return brain.predict(formatted)
