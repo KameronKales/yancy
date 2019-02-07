@@ -5,9 +5,9 @@ from routes import *
 app = Flask(__name__)
 app.register_blueprint(routes)
 
-@app.route('/', methods=['GET'])
+@app.route('/test', methods=['GET'])
 def test():
-    return jsonify({'response': 200})
+    return jsonify({'response': 200, 'results': 'Unauthorized'})
 
 
 
