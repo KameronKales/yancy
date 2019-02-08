@@ -4,7 +4,7 @@ import psycopg2
 import psycopg2.extras as e
 from . import routes
 
-@routes.route('/usage', methods=['GET'])
+@routes.route('/v0/usage', methods=['GET'])
 def usage():
     api_key = request.args.get('api_key')
     print api_key

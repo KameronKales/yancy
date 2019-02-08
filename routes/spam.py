@@ -5,7 +5,7 @@ import psycopg2.extras as e
 from . import routes
 from svc import *
 
-@routes.route('/spam', methods=['POST'])
+@routes.route('/v0/spam', methods=['POST'])
 def spam():
     connection = "host='yancy.c89ytzifs5b6.us-east-1.rds.amazonaws.com' dbname='kam' user='kam' password='Kales333' port='5432'"
     conn = psycopg2.connect(connection)
