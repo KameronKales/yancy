@@ -25,7 +25,7 @@ def spam():
             else:
                 spam_classification = 'True'
             sql = "INSERT INTO spam(uuid, content, classification) VALUES('{0}', '{1}', '{2}')".format(api_key, spam, spam_classification)
-            #cursor.execute(sql)
+            cursor.execute(sql)
             if not cursor.rowcount:
                 conn.commit()
                 cursor.close()
