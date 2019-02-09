@@ -7,7 +7,7 @@ app.register_blueprint(routes)
 
 @app.route('/test', methods=['GET'])
 def test():
-    return jsonify({'response': 200, 'results': 'Unauthorized'})
+    return jsonify({'response': 200, 'results': 'Completed Test'})
 
 
 
