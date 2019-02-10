@@ -12,6 +12,7 @@ import nltk
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics import average_precision_score
 import pickle
+from sklearn.externals import joblib
 
 def connection(sql):
     connection = "host='yancy.c89ytzifs5b6.us-east-1.rds.amazonaws.com' dbname='kam' user='kam' password='Kales333' port='5432'"
@@ -45,8 +46,8 @@ y_pred = svclassifier.predict(x_testcv)
 print(average_precision_score(y_test, y_pred))
 print(confusion_matrix(y_test, y_pred))
 print(classification_report(y_test, y_pred))
-s = pickle.dumps(clf)
-brain = pickle.loads(s)
+new_brain = joblib.dump(clf, 'brain.pkl')
+brain = joblib.load('brain.pkl') 
 
 def spam_svc_classifier(spam):
     ## Need to add regex of fuzzing matching for sexual terms we know are bad
