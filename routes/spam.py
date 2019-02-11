@@ -6,18 +6,17 @@ from . import routes
 from brain_model import spam_svc_classifier
 import time
 from store_classification import db_insert
-from rq import Queue
 from rq.job import Job
-from worker import conn
+from redis import Redis
+import os
+from rq import Queue
 
-q = Queue(connection=conn)
-print q.jobs
-#host=("'yancy-job-queue.xcgj4d.0001.use1.cache.amazonaws.com', db=0'")
-
+redis_url = ('redis://redis:6379/0')
+q = Queue(connection=redis_url)
 
 @routes.route('/v0/spam', methods=['POST'])
 def spam():
-    #print request
+    print request
     if not request.json:
         return jsonify({'response': 401, 'results': 'Please send your request with JSON formatted data'})
     else:
@@ -28,19 +27,16 @@ def spam():
                 return jsonify({'response': 401, 'results': 'Please add your spam to be classified. If you are unsure how please contact support'})
             else:
                 api_key = request.json['api_key']
+                print api_key
                 spam = request.json['spam']
+                print spam
                 spam_classification = spam_svc_classifier(spam)
+                print spam_classification
                 if spam_classification == 0:
                     spam_classification = 'False'
                 else:
                     spam_classification = 'True'
-                #print spam_classification
-                ## we should run a redis queue to speed up the api result
-                ## inserting into the db is slow, 15 seconds vs <1 without
-                ## to make this more pleasant we will execute the insertion in the background
-                job = q.enqueue_call(
-                func=db_insert, args=(api_key, spam, spam_classification,), result_ttl=5000
-                )
+                data_to_send = {'api_key': api_key, 'spam': spam, 'spam_classification': spam_classification}
+                job = q.enqueue(db_insert(data_to_send), data_to_send)
                 print(job.get_id())
-                #print job
-                return jsonify({'response': 200, 'results': spam_classification})
+            return jsonify({'response': 200, 'results': spam_classification})

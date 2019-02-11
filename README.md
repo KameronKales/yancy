@@ -20,3 +20,7 @@ The routes you may access are:
 /spam = requires your api_key and spam in the body of the request (in json) and returns a T/F for spam or ham
 /brain/rq = shows our internal redis interface
 /results/<jobid> = returns whether a job has completed yet
+
+For the project to run it must have access to a redis server and have a worker.py slave running as well
+
+Worker does not run automatically 

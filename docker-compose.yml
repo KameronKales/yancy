@@ -1,0 +1,39 @@
+version: '3.7'
+
+services:
+
+  web:
+    build:
+        context: .
+        dockerfile: Dockerfile/api_dockerfile
+    image: web
+    container_name: yancy
+    ports:
+      - '5000:5000'
+    command: python manage.py run -h 0.0.0.0
+    links:
+      - "worker"
+    volumes:
+      - .:/usr/src/app
+    links:
+      - redis
+    depends_on:
+      - redis
+
+  redis:
+    image: redis
+    ports:
+      - '6379:6379'
+
+  worker:
+    build:
+      context: .
+      dockerfile: Dockerfile/worker_dockerfile
+    image: web
+    command: python worker.py
+    volumes:
+      - .:/usr/src/app
+    links:
+      - redis
+    depends_on:
+      - redis
