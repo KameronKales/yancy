@@ -2,8 +2,8 @@ import psycopg2
 import psycopg2.extras as e
 from flask import Response
 
-email = 'test@gmail.com'
-website = 'www.test.com'
+email = 'edwardsdalton97@gmail.com'
+website = 'www.console.chat'
 
 def add_new(email, website):
     connection = "host='yancy.c89ytzifs5b6.us-east-1.rds.amazonaws.com' dbname='kam' user='kam' password='Kales333' port='5432'"

@@ -7,7 +7,6 @@ from brain_model import *
 
 @routes.route('/v0/spam', methods=['POST'])
 def spam():
-    print dir(request)
     if not request.json:
         return jsonify({'response': 401, 'results': 'Please send your request with JSON formatted data'})
     else:
