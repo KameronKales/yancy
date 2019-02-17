@@ -13,6 +13,7 @@ from rq import Queue
 
 redis_url = ('redis://redis:6379/0')
 q = Queue(connection=redis_url)
+print q
 
 @routes.route('/v0/spam', methods=['POST'])
 def spam():
@@ -36,7 +37,8 @@ def spam():
                     spam_classification = 'False'
                 else:
                     spam_classification = 'True'
-                data_to_send = {'api_key': api_key, 'spam': spam, 'spam_classification': spam_classification}
-                job = q.enqueue(db_insert(data_to_send), data_to_send)
+                job = q.enqueue_call(
+                func=db_insert, args=(api_key, spam, spam_classification,), result_ttl=5000
+                )
                 print(job.get_id())
             return jsonify({'response': 200, 'results': spam_classification})
