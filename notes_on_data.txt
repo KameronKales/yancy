@@ -1,8 +1,0 @@
-ALTER TABLE test
-RENAME COLUMN level_0 TO uuid;
-
-ALTER TABLE spam_classifier
-DROP COLUMN uuid;
-
-ALTER TABLE spam_classifier
-RENAME COLUMN level_0 TO uuid;
