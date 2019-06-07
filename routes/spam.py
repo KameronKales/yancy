@@ -4,6 +4,8 @@ import psycopg2
 import psycopg2.extras as e
 from . import routes
 from brain_model import *
+import os
+
 
 @routes.route('/v0/spam', methods=['POST'])
 def spam():
@@ -16,7 +18,13 @@ def spam():
             if 'spam' not in request.json:
                 return jsonify({'response': 401, 'results': 'Please add your spam to be classified. If you are unsure how please contact support'})
             else:
-                connection = "host='yancy.c89ytzifs5b6.us-east-1.rds.amazonaws.com' dbname='kam' user='kam' password='Kales333' port='5432'"
+                host = os.environ['HOST']
+                dbname = os.environ['DBNAME']
+                user = os.environ['USER']
+                password = os.environ['PASSWORD']
+                port = os.environ['PORT']
+                connection = 'host={} dbname={} user={} password={} port={}'.format(
+                    host, dbname, user, password, port)
                 conn = psycopg2.connect(connection)
                 cursor = conn.cursor(cursor_factory=e.RealDictCursor)
                 api_key = request.json['api_key']
@@ -26,7 +34,8 @@ def spam():
                     spam_classification = 'False'
                 else:
                     spam_classification = 'True'
-                sql = "INSERT INTO spam_classifier(uuid, text, classification) VALUES('{0}', '{1}', '{2}')".format(api_key, spam, spam_classification)
+                sql = "INSERT INTO spam_classifier(uuid, text, classification) VALUES('{0}', '{1}', '{2}')".format(
+                    api_key, spam, spam_classification)
                 cursor.execute(sql)
                 if not cursor.rowcount:
                     conn.commit()
